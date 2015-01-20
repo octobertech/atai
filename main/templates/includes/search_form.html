@@ -1,0 +1,30 @@
+{% load mezzanine_tags i18n future %}
+<form action="{% url "search" %}" class="navbar-form navbar-right" role="search">
+
+<div class="input-group">
+<input class="form-control " placeholder="{% trans "Найти..." %}" type="text" name="q" value="{{ request.REQUEST.q }}" style="border: solid 1px;border-color: #ddd">
+{% if search_model_choices %}
+<span class="input-group-btn">
+    {% if search_model_choices|length == 1 %}
+    <input type="hidden" name="type" value="{{ search_model_choices.0.1 }}">
+    {% else %}
+    <div class="input-group">
+    <select class="form-control" name="type" style="border: solid 1px;border-color: #ddd">
+        <option value="">{% trans "Everything" %}</option>
+        {% for verbose_name, model in search_model_choices %}
+        <option value="{{ model }}"
+            {% if model == request.REQUEST.type  %}selected{% endif %}>
+            {{ verbose_name }}
+        </option>
+        {% endfor %}
+    </select>
+    </div>
+    {% endif %}
+</span>
+{% endif %}
+<span class="input-group-btn">
+    <button type="submit" class="btn"><i class="glyphicon glyphicon-search" style="border: solid 1px;border-color: #ddd"></i></button>
+</span>
+</div>
+
+</form>
